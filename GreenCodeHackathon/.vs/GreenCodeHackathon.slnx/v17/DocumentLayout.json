@@ -1,0 +1,172 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|f:\\1_uni\\hackathon\\hackathon\\greencodehackathon\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|f:\\1_uni\\hackathon\\hackathon\\greencodehackathon\\views\\home\\federatedlearning.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|solutionrelative:views\\home\\federatedlearning.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|f:\\1_uni\\hackathon\\hackathon\\greencodehackathon\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|f:\\1_uni\\hackathon\\hackathon\\greencodehackathon\\views\\home\\battery.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|solutionrelative:views\\home\\battery.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|f:\\1_uni\\hackathon\\hackathon\\greencodehackathon\\services\\energydataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|solutionrelative:services\\energydataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|f:\\1_uni\\hackathon\\hackathon\\greencodehackathon\\controllers\\energyapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|solutionrelative:controllers\\energyapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|f:\\1_uni\\hackathon\\hackathon\\greencodehackathon\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|f:\\1_uni\\hackathon\\hackathon\\greencodehackathon\\views\\home\\predictions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B7DCEFA1-9AD5-79E8-A09D-C3B3C4C46A40}|GreenCodeHackathon.csproj|solutionrelative:views\\home\\predictions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAnwDUAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-03T08:07:19.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FederatedLearning.cshtml",
+              "DocumentMoniker": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Home\\FederatedLearning.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\FederatedLearning.cshtml",
+              "ToolTip": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Home\\FederatedLearning.cshtml",
+              "RelativeToolTip": "Views\\Home\\FederatedLearning.cshtml",
+              "ViewState": "AgIAACMAAAAAAAAAAAAnwC8AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-03T08:07:18.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAIwC4AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T08:07:17.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EnergyApiController.cs",
+              "DocumentMoniker": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Controllers\\EnergyApiController.cs",
+              "RelativeDocumentMoniker": "Controllers\\EnergyApiController.cs",
+              "ToolTip": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Controllers\\EnergyApiController.cs",
+              "RelativeToolTip": "Controllers\\EnergyApiController.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAjwDkAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T08:04:43.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAHEAAAAAAAAAAAApwIAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-03T08:04:22.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Battery.cshtml",
+              "DocumentMoniker": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Home\\Battery.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Battery.cshtml",
+              "ToolTip": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Home\\Battery.cshtml",
+              "RelativeToolTip": "Views\\Home\\Battery.cshtml",
+              "ViewState": "AgIAAB0AAAAAAAAAAAApwCMAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-03T07:47:39.338Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EnergyDataService.cs",
+              "DocumentMoniker": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Services\\EnergyDataService.cs",
+              "RelativeDocumentMoniker": "Services\\EnergyDataService.cs",
+              "ToolTip": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Services\\EnergyDataService.cs",
+              "RelativeToolTip": "Services\\EnergyDataService.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAjwFgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T07:32:24.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Predictions.cshtml",
+              "DocumentMoniker": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Home\\Predictions.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Predictions.cshtml",
+              "ToolTip": "F:\\1_Uni\\Hackathon\\Hackathon\\GreenCodeHackathon\\Views\\Home\\Predictions.cshtml",
+              "RelativeToolTip": "Views\\Home\\Predictions.cshtml",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAAwHIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-03T07:16:01.751Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

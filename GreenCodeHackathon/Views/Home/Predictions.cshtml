@@ -1,0 +1,200 @@
+﻿@{
+    ViewData["Title"] = "Tahminler";
+    ViewData["Page"] = "predictions";
+}
+
+<!-- Üst özet bar -->
+<div class="kpi-grid" style="grid-template-columns: repeat(3,1fr); margin-bottom:24px">
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Toplam Tahmin</span>
+            <div class="kpi-icon" style="background:rgba(88,166,255,0.15)">
+                <i class="bi bi-graph-up" style="color:#58a6ff"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="predTotal">—</div>
+        <div class="kpi-sub">kWh bugün</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Peak Üretim</span>
+            <div class="kpi-icon" style="background:rgba(210,153,34,0.15)">
+                <i class="bi bi-arrow-up-circle" style="color:#d29922"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="predPeak">—</div>
+        <div class="kpi-sub">kW maksimum</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Ort. Güven Skoru</span>
+            <div class="kpi-icon" style="background:rgba(188,140,255,0.15)">
+                <i class="bi bi-patch-check" style="color:#bc8cff"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="predConf">89.91</div>
+        <div class="kpi-sub">% model güveni</div>
+    </div>
+</div>
+
+<!-- Grafik + Tablo -->
+<div class="chart-grid" style="grid-template-columns: 1fr 1fr; margin-bottom:24px">
+    <div class="chart-card">
+        <div class="chart-card-header">
+            <div>
+                <div class="chart-title">Saatlik Tahmin vs Gerçek</div>
+                <div class="chart-subtitle">kW cinsinden üretim karşılaştırması</div>
+            </div>
+        </div>
+        <canvas id="predictionChart" height="140"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-card-header">
+            <div>
+                <div class="chart-title">Güven Skoru Dağılımı</div>
+                <div class="chart-subtitle">Saatlik ML model güveni</div>
+            </div>
+        </div>
+        <canvas id="confidenceChart" height="140"></canvas>
+    </div>
+</div>
+
+<!-- Detay Tablosu -->
+<div class="table-card">
+    <div class="table-card-header">
+        <i class="bi bi-table me-2"></i>Saatlik Tahmin Detayı
+    </div>
+    <div class="table-responsive">
+        <table class="table table-dark-custom table-hover">
+            <thead>
+                <tr>
+                    <th>Saat</th>
+                    <th>Tahmin (kW)</th>
+                    <th>Gerçek (kW)</th>
+                    <th>Fark</th>
+                    <th>Güven</th>
+                    <th>Kaynak</th>
+                </tr>
+            </thead>
+            <tbody id="predTableBody">
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        <i class="bi bi-hourglass-split me-2"></i>Yükleniyor...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+            function toLocalTime(utcStr) {
+            // SQLite'tan gelen string'e Z ekle (UTC olduğunu belirt)
+            const str = utcStr.endsWith('Z') ? utcStr : utcStr + 'Z';
+            return new Date(str);
+        }
+
+        async function loadPredictions() {
+            const res  = await fetch('/api/energy/predictions/today');
+            const data = await res.json();
+
+            console.log(data)
+            if (!data.length) return;
+
+            // KPI
+            const total = data.reduce((s, d) => s + d.predictedKw, 0);
+            const peak  = Math.max(...data.map(d => d.predictedKw));
+            const conf  = data.reduce((s, d) => s + d.confidence, 0) / data.length;
+
+            document.getElementById('predTotal').textContent = total.toFixed(1);
+            document.getElementById('predPeak').textContent  = peak.toFixed(2);
+
+            const labels = data.map(d => toLocalTime(d.timestamp).getHours() + ':00');
+
+            // Tahmin vs Gerçek grafiği
+            new Chart(document.getElementById('predictionChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Tahmin (kW)',
+                            data: data.map(d => d.predictedKw),
+                            backgroundColor: 'rgba(88,166,255,0.7)',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Gerçek (kW)',
+                            data: data.map(d => d.actualKw),
+                            backgroundColor: 'rgba(63,185,80,0.7)',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } },
+                    scales: {
+                        x: { grid: { color: '#30363d' } },
+                        y: { grid: { color: '#30363d' } }
+                    }
+                }
+            });
+
+            // Güven skoru grafiği
+            new Chart(document.getElementById('confidenceChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Güven Skoru',
+                        data: data.map(d => (d.guven_Skoru).toFixed(1)),
+                        borderColor: '#bc8cff',
+                        backgroundColor: 'rgba(188,140,255,0.1)',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } },
+                    scales: {
+                        x: { grid: { color: '#30363d' } },
+                        y: {
+                            min: 70, max: 100,
+                            grid: { color: '#30363d' },
+                            ticks: { callback: v => v + '%' }
+                        }
+                    }
+                }
+            });
+
+            // Tablo
+            const tbody = document.getElementById('predTableBody');
+            tbody.innerHTML = data.map(d => {
+                const saat = toLocalTime(d.timestamp).getHours() + ':00';
+                const fark  = d.actualKw != null ? (d.actualKw - d.predictedKw).toFixed(2) : '—';
+                const farkColor = fark > 0 ? '#3fb950' : fark < 0 ? '#f85149' : '#8b949e';
+                const confPct = (d.guven_Skoru).toFixed(0);
+                const confColor = confPct >= 90 ? '#3fb950' : confPct >= 80 ? '#f0883e' : '#f85149';
+                return `
+                <tr>
+                    <td>${saat}</td>
+                    <td>${d.predictedKw.toFixed(2)}</td>
+                    <td>${d.actualKw?.toFixed(2) ?? '—'}</td>
+                    <td style="color:${farkColor}">${fark !== '—' ? (fark > 0 ? '+' : '') + fark : '—'}</td>
+                    <td>
+                        <span style="color:${confColor}; font-weight:600">${confPct}%</span>
+                    </td>
+                    <td><span class="kpi-badge badge-blue">${d.source}</span></td>
+                </tr>`;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPredictions);
+    </script>
+}

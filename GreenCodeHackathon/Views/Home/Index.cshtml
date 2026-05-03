@@ -1,0 +1,283 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["Page"] = "dashboard";
+}
+
+<!-- KPI Kartları -->
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Toplam Üretim (son)</span>
+            <div class="kpi-icon" style="background:rgba(63,185,80,0.15)">
+                <i class="bi bi-lightning-fill" style="color:#3fb950"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="totalProduction">—</div>
+        <div class="kpi-sub">kWh</div>
+        <span class="kpi-badge badge-green"><i class="bi bi-arrow-up"></i> Tahmin</span>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Batarya</span>
+            <div class="kpi-icon" style="background:rgba(88,166,255,0.15)">
+                <i class="bi bi-battery-half" style="color:#58a6ff"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="batteryPercent">—</div>
+        <div class="kpi-sub">% doluluk</div>
+        <span class="kpi-badge badge-blue" id="batteryDecision">—</span>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Model Güveni</span>
+            <div class="kpi-icon" style="background:rgba(188,140,255,0.15)">
+                <i class="bi bi-cpu" style="color:#bc8cff"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="modelConfidence">89.91</div>
+        <div class="kpi-sub">% ortalama</div>
+        <span class="kpi-badge badge-blue">ML Model</span>
+    </div>
+
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Güneş Işınımı</span>
+            <div class="kpi-icon" style="background:rgba(210,153,34,0.15)">
+                <i class="bi bi-brightness-high" style="color:#d29922"></i>
+            </div>
+        </div>
+        <div class="kpi-value" id="solarIrr">—</div>
+        <div class="kpi-sub">W/m²</div>
+        <span class="kpi-badge badge-orange">Anlık</span>
+    </div>
+</div>
+
+<!-- Grafik Alanı -->
+<div class="chart-grid">
+    <div class="chart-card">
+        <div class="chart-card-header">
+            <div>
+                <div class="chart-title">Günlük Üretim Tahmini</div>
+                <div class="chart-subtitle">Tahmin vs Gerçek (kW)</div>
+            </div>
+        </div>
+        <canvas id="productionChart" height="110"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-card-header">
+            <div>
+                <div class="chart-title">Batarya Durumu</div>
+                <div class="chart-subtitle">Anlık doluluk & karar</div>
+            </div>
+        </div>
+        <div class="battery-gauge">
+            <div class="battery-percent" id="gaugePercent">—%</div>
+            <div class="battery-bar-wrap" style="width:85%; margin:14px 0">
+                <div class="battery-bar-fill" id="batteryFill"
+                     style="width:0%; background:#58a6ff"></div>
+            </div>
+            <div class="kpi-sub" id="batteryReason">Veri bekleniyor...</div>
+            <div class="decision-badge decision-idle mt-2" id="decisionBadge">
+                <i class="bi bi-dash-circle"></i> —
+            </div>
+            <div class="mt-3" style="font-size:12px; color:var(--text-muted)">
+                Kapasite: <span id="batteryCapacity">—</span> kWh &nbsp;|&nbsp;
+                Güç: <span id="batteryPower">—</span> kW
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Batarya Karar Geçmişi Tablosu -->
+<div class="table-card">
+    <div class="table-card-header">
+        <i class="bi bi-clock-history me-2"></i>Son 24 Saat — Batarya Kararları
+    </div>
+    <div class="table-responsive">
+        <table class="table table-dark-custom table-hover">
+            <thead>
+                <tr>
+                    <th>Saat</th>
+                    <th>Karar</th>
+                    <th>Doluluk</th>
+                    <th>Güç (kW)</th>
+                    <th>Gerekçe</th>
+                </tr>
+            </thead>
+            <tbody id="batteryTableBody">
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        <i class="bi bi-hourglass-split me-2"></i>Yükleniyor...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toLocalTime(utcStr) {
+            const str = utcStr.endsWith('Z') ? utcStr : utcStr + 'Z';
+            return new Date(str);
+        }
+
+        async function loadStats() {
+            const res  = await fetch('/api/energy/stats');
+            const data = await res.json();
+
+            document.getElementById('totalProduction').textContent =
+                data.totalProductionToday.toFixed(1);
+            // document.getElementById('modelConfidence').textContent =
+            //     data.averageConfidence;
+
+            if (data.weather) {
+                document.getElementById('solarIrr').textContent =
+                    data.weather.solarIrradiance;
+            }
+
+            if (data.battery) {
+                const b = data.battery;
+                document.getElementById('batteryPercent').textContent =
+                    b.chargePercent.toFixed(1);
+                document.getElementById('batteryDecision').textContent =
+                    b.decision;
+                document.getElementById('gaugePercent').textContent =
+                    b.chargePercent.toFixed(1) + '%';
+                document.getElementById('batteryFill').style.width =
+                    b.chargePercent + '%';
+                document.getElementById('batteryReason').textContent =
+                    b.decisionReason;
+                document.getElementById('batteryCapacity').textContent =
+                    b.capacityKwh;
+                document.getElementById('batteryPower').textContent =
+                    b.currentPowerKw;
+
+                const fill = document.getElementById('batteryFill');
+                const pct  = b.chargePercent;
+                fill.style.background = pct > 60 ? '#3fb950'
+                                      : pct > 30 ? '#f0883e'
+                                      : '#f85149';
+
+                const badge = document.getElementById('decisionBadge');
+                badge.className = 'decision-badge mt-2 ' + (
+                    b.decision === 'CHARGE'    ? 'decision-charge' :
+                    b.decision === 'DISCHARGE' ? 'decision-discharge' :
+                                                 'decision-idle');
+                const icon = b.decision === 'CHARGE'    ? 'arrow-up-circle'
+                           : b.decision === 'DISCHARGE' ? 'arrow-down-circle'
+                           : 'dash-circle';
+                badge.innerHTML = `<i class="bi bi-${icon}"></i> ${b.decision}`;
+            }
+        }
+
+        async function loadProductionChart() {
+            const res  = await fetch('/api/energy/predictions/today');
+            const data = await res.json();
+
+            const labels    = data.map(d => toLocalTime(d.timestamp).getHours() + ':00');
+            const predicted = data.map(d => d.predictedKw);
+            const actual    = data.map(d => d.actualKw ?? null);
+
+            const ctx = document.getElementById('productionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Tahmin (kW)',
+                            data: predicted,
+                            borderColor: '#58a6ff',
+                            backgroundColor: 'rgba(88,166,255,0.08)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Gerçek (kW)',
+                            data: actual,
+                            borderColor: '#3fb950',
+                            backgroundColor: 'rgba(63,185,80,0.08)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            tension: 0.4,
+                            fill: true,
+                            borderDash: [5, 3]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12 } }
+                    },
+                    scales: {
+                        x: { grid: { color: '#30363d' } },
+                        y: {
+                            grid: { color: '#30363d' },
+                            title: { display: true, text: 'kW' }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function loadBatteryTable() {
+            const res   = await fetch('/api/energy/battery/history');
+            const data  = await res.json();
+            const tbody = document.getElementById('batteryTableBody');
+
+            console.log('Batarya verisi:', data.length, data); // debug
+
+            if (!data.length) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5" class="text-center text-muted py-4">Veri yok</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.slice().reverse().map(b => {
+                const badgeClass = b.decision === 'CHARGE'    ? 'badge-green'
+                                 : b.decision === 'DISCHARGE' ? 'badge-orange'
+                                 : 'badge-blue';
+                const saat = toLocalTime(b.timestamp)
+                    .toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+                return `
+                <tr>
+                    <td>${saat}</td>
+                    <td><span class="kpi-badge ${badgeClass}">${b.decision}</span></td>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:8px">
+                            <div style="width:60px; height:6px; background:var(--bg-hover);
+                                        border-radius:3px; overflow:hidden">
+                                <div style="width:${b.chargePercent}%; height:100%;
+                                            background:${b.chargePercent > 60 ? '#3fb950'
+                                                       : b.chargePercent > 30 ? '#f0883e'
+                                                       : '#f85149'};
+                                            border-radius:3px"></div>
+                            </div>
+                            ${b.chargePercent.toFixed(0)}%
+                        </div>
+                    </td>
+                    <td style="color:${b.currentPowerKw > 0 ? '#3fb950'
+                                      : b.currentPowerKw < 0 ? '#f85149'
+                                      : '#8b949e'}">
+                        ${b.currentPowerKw > 0 ? '+' : ''}${b.currentPowerKw}
+                    </td>
+                    <td style="color:var(--text-secondary)">${b.decisionReason}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            loadProductionChart();
+            loadBatteryTable();
+        });
+    </script>
+}

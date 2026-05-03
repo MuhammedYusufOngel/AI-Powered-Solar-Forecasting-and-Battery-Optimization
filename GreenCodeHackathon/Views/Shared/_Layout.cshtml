@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html> 
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — Energy Dashboard</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+    <!-- ===== SOL SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <i class="bi bi-lightning-charge-fill text-warning"></i>
+            <span>GreenCode</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Ana Menü</div>
+            <a href="/" class="nav-item @(ViewData["Page"]?.ToString() == "dashboard" ? "active" : "")">
+                <i class="bi bi-grid-1x2-fill"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/Home/Predictions" class="nav-item @(ViewData["Page"]?.ToString() == "predictions" ? "active" : "")">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span>Tahminler</span>
+            </a>
+            <a href="/Home/Battery" class="nav-item @(ViewData["Page"]?.ToString() == "battery" ? "active" : "")">
+                <i class="bi bi-battery-charging"></i>
+                <span>Batarya</span>
+            </a>
+            <a href="/Home/Weather" class="nav-item @(ViewData["Page"]?.ToString() == "weather" ? "active" : "")">
+                <i class="bi bi-cloud-sun-fill"></i>
+                <span>Hava Durumu</span>
+            </a>
+
+@*             <div class="nav-section-label mt-3">Sistem</div>
+            <a href="/Home/FederatedLearning" class="nav-item @(ViewData["Page"]?.ToString() == "federated" ? "active" : "")">
+                <i class="bi bi-diagram-3-fill"></i>
+                <span>Federated Learning</span>
+            </a> *@
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="status-dot online"></div>
+            <span>Sistem Aktif</span>
+        </div>
+    </aside>
+
+    <!-- ===== ANA İÇERİK ===== -->
+    <main class="main-content">
+
+        <!-- Üst bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1 class="page-title">@ViewData["Title"]</h1>
+                <span class="page-subtitle">
+                    Son güncelleme: <span id="lastUpdate">@DateTime.Now.ToString("HH:mm")</span>
+                </span>
+            </div>
+            <div class="topbar-right">
+                <div class="weather-pill">
+                    <i class="bi bi-thermometer-half"></i>
+                    <span id="tempDisplay">—°C</span>
+                </div>
+                <div class="weather-pill">
+                    <i class="bi bi-brightness-high-fill text-warning"></i>
+                    <span id="irradianceDisplay">— W/m²</span>
+                </div>
+                <div class="date-pill">
+                    <i class="bi bi-calendar3"></i>
+                    <span>@DateTime.Now.ToString("dd MMM yyyy")</span>
+                </div>
+            </div>
+        </header>
+            <!-- Mobil Alt Navigasyon -->
+            <nav class="mobile-nav" style="display:none; position:fixed; bottom:0; left:0; right:0;
+                 background:var(--bg-secondary); border-top:1px solid var(--border);
+                 z-index:200; height:60px; justify-content:space-around; align-items:center; padding:0 8px;">
+
+                <a href="/" class="mobile-nav-item">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Ana Sayfa</span>
+                </a>
+                <a href="/Home/Predictions" class="mobile-nav-item">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>Tahmin</span>
+                </a>
+                <a href="/Home/Battery" class="mobile-nav-item">
+                    <i class="bi bi-battery-charging"></i>
+                    <span>Batarya</span>
+                </a>
+                <a href="/Home/Weather" class="mobile-nav-item">
+                    <i class="bi bi-cloud-sun-fill"></i>
+                    <span>Hava</span>
+                </a>
+                <a href="/Home/FederatedLearning" class="mobile-nav-item">
+                    <i class="bi bi-diagram-3-fill"></i>
+                    <span>FL</span>
+                </a>
+            </nav>
+
+        <!-- Sayfa içeriği buraya gelir -->
+        <div class="content-area">
+            @RenderBody()
+        </div>
+
+            <!-- Footer -->
+            <footer style="
+                padding: 12px 28px;
+                border-top: 1px solid var(--border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 11px;
+                color: var(--text-muted);
+">
+                <span>
+                    <i class="bi bi-lightning-charge-fill text-warning me-1"></i>
+                    GreenCode Hackathon — Energy Dashboard
+                </span>
+                <span>
+                    Veri kaynakları:
+                    <span class="kpi-badge badge-blue" style="font-size:10px">Open-Meteo</span>
+                    <span class="kpi-badge badge-orange" style="font-size:10px">PVGIS</span>
+                    <span class="kpi-badge badge-green" style="font-size:10px">ML Model</span>
+                </span>
+            </footer>
+    </main>
+</div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- SignalR Client -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="~/js/realtime.js" asp-append-version="true"></script>
+</body>
+</html>

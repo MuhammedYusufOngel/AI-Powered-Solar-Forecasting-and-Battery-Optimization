@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Federated Learning";
+    ViewData["Page"] = "federated";
+}
+
+<!-- Özet KPI -->
+<div class="kpi-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:24px">
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Aktif Düğüm</span>
+            <div class="kpi-icon" style="background:rgba(63,185,80,0.15)">
+                <i class="bi bi-diagram-3" style="color:#3fb950"></i>
+            </div>
+        </div>
+        <div class="kpi-value">3</div>
+        <div class="kpi-sub">Bağlı veri kaynağı</div>
+        <span class="kpi-badge badge-green"><i class="bi bi-check-circle"></i> Aktif</span>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Global Model</span>
+            <div class="kpi-icon" style="background:rgba(88,166,255,0.15)">
+                <i class="bi bi-cpu" style="color:#58a6ff"></i>
+            </div>
+        </div>
+        <div class="kpi-value">v4.2</div>
+        <div class="kpi-sub">Son agregasyon</div>
+        <span class="kpi-badge badge-blue">Güncel</span>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Gizlilik</span>
+            <div class="kpi-icon" style="background:rgba(188,140,255,0.15)">
+                <i class="bi bi-shield-lock" style="color:#bc8cff"></i>
+            </div>
+        </div>
+        <div class="kpi-value">DP</div>
+        <div class="kpi-sub">Differential Privacy aktif</div>
+        <span class="kpi-badge" style="background:rgba(188,140,255,0.15);color:#bc8cff">
+            ε = 0.1
+        </span>
+    </div>
+</div>
+
+<!-- Mimari şeması -->
+<div class="chart-card" style="margin-bottom:24px">
+    <div class="chart-card-header">
+        <div class="chart-title">Federated Learning Mimarisi</div>
+        <div class="chart-subtitle">Veri kaynakları → Yerel model → Global agregasyon</div>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center gap-3 py-4 flex-wrap">
+        <!-- Düğümler -->
+        <div class="d-flex flex-column gap-3">
+            @foreach (var node in new[] {
+                        ("PVGIS",      "bi-sun",           "#d29922", "Güneş verisi"),
+                        ("OpenMeteo",  "bi-cloud-sun",      "#58a6ff", "Hava verisi"),
+                        ("IoT Sensor", "bi-router",         "#3fb950", "Anlık ölçüm")
+                        })
+            {
+                <div class="chart-card" style="padding:14px 18px; min-width:160px; border-color:@node.Item3">
+                    <div style="display:flex; align-items:center; gap:8px">
+                        <i class="bi @node.Item2" style="font-size:20px; color:@node.Item3"></i>
+                        <div>
+                            <div style="font-weight:600; font-size:13px">@node.Item1</div>
+                            <div style="font-size:11px; color:var(--text-muted)">@node.Item4</div>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <span class="kpi-badge badge-green" style="font-size:10px">
+                            Yerel model eğitildi
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Ok -->
+        <div style="font-size:32px; color:var(--text-muted)">
+            <i class="bi bi-arrow-right"></i>
+        </div>
+
+        <!-- Global model -->
+        <div class="chart-card" style="padding:24px; min-width:180px;
+             border-color:#bc8cff; text-align:center">
+            <i class="bi bi-cpu-fill" style="font-size:40px; color:#bc8cff"></i>
+            <div style="font-weight:700; font-size:16px; margin-top:8px">Global Model</div>
+            <div style="font-size:12px; color:var(--text-muted)">FedAvg Agregasyon</div>
+            <div class="kpi-badge badge-blue mt-2">Accuracy: 94.2%</div>
+        </div>
+
+        <!-- Ok -->
+        <div style="font-size:32px; color:var(--text-muted)">
+            <i class="bi bi-arrow-right"></i>
+        </div>
+
+        <!-- Çıktı -->
+        <div class="chart-card" style="padding:24px; min-width:180px;
+             border-color:#3fb950; text-align:center">
+            <i class="bi bi-lightning-charge-fill" style="font-size:40px; color:#3fb950"></i>
+            <div style="font-weight:700; font-size:16px; margin-top:8px">Tahmin Motoru</div>
+            <div style="font-size:12px; color:var(--text-muted)">Karar optimizasyonu</div>
+            <div class="kpi-badge badge-green mt-2">Canlı çalışıyor</div>
+        </div>
+    </div>
+</div>
+
+<!-- Tur bilgisi tablosu -->
+<div class="table-card">
+    <div class="table-card-header">
+        <i class="bi bi-arrow-repeat me-2"></i>Eğitim Turları
+    </div>
+    <div class="table-responsive">
+        <table class="table table-dark-custom table-hover">
+            <thead>
+                <tr>
+                    <th>Tur</th>
+                    <th>Düğüm</th>
+                    <th>Kayıp (Loss)</th>
+                    <th>Doğruluk</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var rounds = new[] {
+                                (1, "PVGIS + OpenMeteo", "0.0842", "88.3%", "Tamamlandı"),
+                                (2, "PVGIS + OpenMeteo + IoT", "0.0621", "91.1%", "Tamamlandı"),
+                                (3, "Tüm düğümler", "0.0487", "93.0%", "Tamamlandı"),
+                                (4, "Tüm düğümler", "0.0391", "94.2%", "Aktif")
+                                };
+                    foreach (var r in rounds)
+                    {
+                        <tr>
+                            <td>Tur @r.Item1</td>
+                            <td>@r.Item2</td>
+                            <td style="color:#f85149">@r.Item3</td>
+                            <td style="color:#3fb950; font-weight:600">@r.Item4</td>
+                            <td>
+                                <span class="kpi-badge @(r.Item5 == "Aktif" ? "badge-green" : "badge-blue")">
+                                    @if (r.Item5 == "Aktif")
+                                    {
+                                        <i class="bi bi-circle-fill" style="font-size:8px; animation: pulse 2s infinite"></i>
+                                        @r.Item5
+                                    }
+                                    else
+                                    {
+                                        @r.Item5
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+[
+  {
+    "ContainingType": "GreenCodeHackathon.Controllers.EnergyApiController",
+    "Method": "GetBatteryHistory",
+    "RelativePath": "api/energy/battery/history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hours",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenCodeHackathon.Controllers.EnergyApiController",
+    "Method": "GetLatestBattery",
+    "RelativePath": "api/energy/battery/latest",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenCodeHackathon.Controllers.EnergyApiController",
+    "Method": "GetTodaysPredictions",
+    "RelativePath": "api/energy/predictions/today",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenCodeHackathon.Controllers.EnergyApiController",
+    "Method": "GetStats",
+    "RelativePath": "api/energy/stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenCodeHackathon.Controllers.EnergyApiController",
+    "Method": "GetWeather",
+    "RelativePath": "api/energy/weather",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
